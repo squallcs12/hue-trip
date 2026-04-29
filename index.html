@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hành Trình Hà Nội – Huế 4 Ngày | VF3</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: #f5f7fa;
+      color: #2d3748;
+      line-height: 1.6;
+    }
+
+    header {
+      background: linear-gradient(135deg, #1a365d 0%, #2b6cb0 100%);
+      color: white;
+      padding: 48px 24px;
+      text-align: center;
+    }
+    header h1 { font-size: 2rem; font-weight: 700; margin-bottom: 8px; }
+    header p { font-size: 1rem; opacity: 0.85; }
+
+    .badges {
+      display: flex; flex-wrap: wrap; justify-content: center;
+      gap: 10px; margin-top: 20px;
+    }
+    .badge {
+      background: rgba(255,255,255,0.18);
+      border: 1px solid rgba(255,255,255,0.35);
+      border-radius: 20px;
+      padding: 4px 14px;
+      font-size: 0.85rem;
+    }
+
+    .container { max-width: 900px; margin: 0 auto; padding: 32px 16px; }
+
+    .overview-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px; margin-bottom: 40px;
+    }
+    .overview-card {
+      background: white; border-radius: 12px;
+      padding: 20px; text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    }
+    .overview-card .label { font-size: 0.78rem; color: #718096; text-transform: uppercase; letter-spacing: .05em; }
+    .overview-card .value { font-size: 1.5rem; font-weight: 700; color: #2b6cb0; margin-top: 4px; }
+
+    h2 {
+      font-size: 1.3rem; font-weight: 700;
+      margin: 40px 0 16px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid #bee3f8;
+      color: #1a365d;
+    }
+
+    .day-card {
+      background: white; border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+      margin-bottom: 24px; overflow: hidden;
+    }
+    .day-header {
+      padding: 16px 24px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .day-header.d1 { background: #ebf8ff; }
+    .day-header.d2 { background: #fff5f5; }
+    .day-header.d3 { background: #f0fff4; }
+    .day-header.d4 { background: #fffff0; }
+    .day-number {
+      width: 40px; height: 40px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 1rem; flex-shrink: 0;
+    }
+    .d1 .day-number { background: #2b6cb0; color: white; }
+    .d2 .day-number { background: #c53030; color: white; }
+    .d3 .day-number { background: #276749; color: white; }
+    .d4 .day-number { background: #b7791f; color: white; }
+    .day-title { font-weight: 700; font-size: 1.05rem; }
+    .day-subtitle { font-size: 0.85rem; color: #718096; }
+    .day-km {
+      margin-left: auto;
+      font-weight: 700; font-size: 1rem;
+      background: rgba(0,0,0,0.08);
+      padding: 4px 12px; border-radius: 12px;
+    }
+
+    .day-body { padding: 0 24px 20px; }
+
+    table {
+      width: 100%; border-collapse: collapse;
+      margin-top: 12px; font-size: 0.9rem;
+    }
+    th {
+      text-align: left; padding: 8px 10px;
+      background: #f7fafc; color: #4a5568;
+      font-size: 0.78rem; text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+    td { padding: 9px 10px; border-top: 1px solid #edf2f7; }
+    tr:hover td { background: #f7fafc; }
+    td:first-child { color: #718096; font-size: 0.85rem; white-space: nowrap; }
+
+    .tag-tourist {
+      display: inline-block;
+      background: #ebf8ff; color: #2b6cb0;
+      border-radius: 6px; padding: 2px 8px;
+      font-size: 0.8rem; font-weight: 600;
+    }
+    .tag-charge {
+      display: inline-block;
+      background: #fefcbf; color: #b7791f;
+      border-radius: 6px; padding: 2px 8px;
+      font-size: 0.8rem; font-weight: 600;
+    }
+    .tag-sleep {
+      display: inline-block;
+      background: #e9d8fd; color: #553c9a;
+      border-radius: 6px; padding: 2px 8px;
+      font-size: 0.8rem; font-weight: 600;
+    }
+
+    .map-links {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 10px; margin-bottom: 32px;
+    }
+    .map-link {
+      display: flex; align-items: center; gap: 8px;
+      background: white; border-radius: 10px;
+      padding: 12px 16px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+      text-decoration: none; color: #2d3748;
+      font-weight: 600; font-size: 0.9rem;
+      transition: box-shadow .15s, transform .15s;
+    }
+    .map-link:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.13); transform: translateY(-1px); }
+    .map-icon { font-size: 1.2rem; }
+
+    .notice-box {
+      background: #fffbeb; border: 1px solid #f6e05e;
+      border-radius: 10px; padding: 16px 20px;
+      margin-bottom: 24px; font-size: 0.9rem;
+    }
+    .notice-box strong { color: #b7791f; }
+
+    .stops-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 14px; margin-bottom: 24px;
+    }
+    .stop-card {
+      background: white; border-radius: 10px;
+      padding: 16px 18px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+      display: flex; gap: 14px; align-items: flex-start;
+    }
+    .stop-num {
+      width: 32px; height: 32px; border-radius: 50%;
+      background: #2b6cb0; color: white;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 0.9rem; flex-shrink: 0;
+    }
+    .stop-name { font-weight: 700; font-size: 0.95rem; }
+    .stop-meta { font-size: 0.82rem; color: #718096; margin-top: 2px; }
+
+    .hotel-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 14px; margin-bottom: 24px;
+    }
+    .hotel-card {
+      background: white; border-radius: 10px;
+      padding: 16px 18px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    }
+    .hotel-night { font-size: 0.78rem; color: #718096; text-transform: uppercase; letter-spacing: .04em; }
+    .hotel-name { font-weight: 700; font-size: 1rem; margin: 4px 0; color: #2b6cb0; }
+    .hotel-tip { font-size: 0.82rem; color: #4a5568; }
+
+    .vf3-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+    }
+    .vf3-card {
+      background: white; border-radius: 10px;
+      padding: 16px 18px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    }
+    .vf3-card .vf3-label { font-size: 0.78rem; color: #718096; text-transform: uppercase; letter-spacing: .04em; }
+    .vf3-card .vf3-value { font-weight: 700; font-size: 1rem; margin-top: 4px; color: #1a365d; }
+
+    .warning { color: #c53030; }
+
+    footer {
+      text-align: center; padding: 32px 16px;
+      color: #a0aec0; font-size: 0.82rem;
+      border-top: 1px solid #e2e8f0; margin-top: 48px;
+    }
+
+    @media (max-width: 600px) {
+      header h1 { font-size: 1.4rem; }
+      .day-km { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>🚗 Hành Trình Hà Nội – Huế 4 Ngày</h1>
+  <p>Khứ hồi bằng VinFast VF3</p>
+  <div class="badges">
+    <span class="badge">2 người lớn + bé 3 tuổi</span>
+    <span class="badge">~1.595km tổng</span>
+    <span class="badge">Tối đa 200km/chặng</span>
+    <span class="badge">VF3 · chỉ sạc ≥30kW</span>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- Overview -->
+  <div class="overview-grid" style="margin-top:32px;">
+    <div class="overview-card">
+      <div class="label">Tổng quãng đường</div>
+      <div class="value">1.595km</div>
+    </div>
+    <div class="overview-card">
+      <div class="label">Số ngày</div>
+      <div class="value">4 ngày</div>
+    </div>
+    <div class="overview-card">
+      <div class="label">Điểm du lịch</div>
+      <div class="value">6 điểm</div>
+    </div>
+    <div class="overview-card">
+      <div class="label">Chặng dài nhất</div>
+      <div class="value">470km</div>
+    </div>
+  </div>
+
+  <!-- Google Maps -->
+  <h2>🗺 Google Maps từng ngày</h2>
+  <div class="map-links">
+    <a class="map-link" href="https://www.google.com/maps/dir/Hà+Nội/Tràng+An,+Ninh+Bình/Sầm+Sơn,+Thanh+Hóa/Tĩnh+Gia,+Thanh+Hóa/Cửa+Lò,+Nghệ+An" target="_blank">
+      <span class="map-icon">📍</span> Ngày 1
+    </a>
+    <a class="map-link" href="https://www.google.com/maps/dir/Cửa+Lò,+Nghệ+An/Vinh,+Nghệ+An/Hà+Tĩnh/Đồng+Hới,+Quảng+Bình/Đông+Hà,+Quảng+Trị/Huế" target="_blank">
+      <span class="map-icon">📍</span> Ngày 2
+    </a>
+    <a class="map-link" href="https://www.google.com/maps/dir/Huế/Thành+Cổ+Quảng+Trị/Đồng+Hới,+Quảng+Bình/Kỳ+Anh,+Hà+Tĩnh/Thiên+Cầm,+Hà+Tĩnh" target="_blank">
+      <span class="map-icon">📍</span> Ngày 3
+    </a>
+    <a class="map-link" href="https://www.google.com/maps/dir/Thiên+Cầm,+Hà+Tĩnh/Vinh,+Nghệ+An/Tĩnh+Gia,+Thanh+Hóa/Thanh+Hóa/Hà+Nội" target="_blank">
+      <span class="map-icon">📍</span> Ngày 4
+    </a>
+  </div>
+
+  <!-- Day 1 -->
+  <h2>📅 Chi tiết từng ngày</h2>
+
+  <div class="day-card">
+    <div class="day-header d1">
+      <div class="day-number">1</div>
+      <div>
+        <div class="day-title">Hà Nội → Cửa Lò</div>
+        <div class="day-subtitle">Xuất phát 6:00</div>
+      </div>
+      <div class="day-km">330km</div>
+    </div>
+    <div class="day-body">
+      <table>
+        <thead><tr><th>Giờ</th><th>Điểm</th><th>Hoạt động</th><th>Loại</th></tr></thead>
+        <tbody>
+          <tr><td>8:00</td><td><strong>Tràng An, Ninh Bình</strong></td><td>Đi thuyền ~2 tiếng, bé thích</td><td><span class="tag-tourist">Du lịch</span></td></tr>
+          <tr><td>10:00</td><td>Trạm dừng nghỉ Ninh Bình</td><td>Sạc · 250kW×1, 60kW×10</td><td><span class="tag-charge">Sạc</span></td></tr>
+          <tr><td>11:00</td><td><strong>Sầm Sơn, Thanh Hóa</strong></td><td>Ăn trưa hải sản, bé chơi cát ~1.5h</td><td><span class="tag-tourist">Du lịch</span></td></tr>
+          <tr><td>13:30</td><td>Vincom+ Thái Hòa, Thanh Hóa</td><td>Sạc đầy 100% · 250kW×5, 60kW×2</td><td><span class="tag-charge">Sạc</span></td></tr>
+          <tr><td>14:30</td><td>Vincom+ Tĩnh Gia, Thanh Hóa</td><td>Sạc nhanh giữa đường · 250kW×1, 30kW×1</td><td><span class="tag-charge">Sạc</span></td></tr>
+          <tr><td>17:00</td><td><strong>Cửa Lò, Nghệ An</strong></td><td>Tắm biển, ăn tối hải sản</td><td><span class="tag-sleep">Nghỉ đêm</span></td></tr>
+          <tr><td>Tối</td><td>Vinpearl Discovery Cửa Hội</td><td>Sạc qua đêm · 250kW×1, 30kW×2</td><td><span class="tag-charge">Sạc</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Day 2 -->
+  <div class="day-card">
+    <div class="day-header d2">
+      <div class="day-number">2</div>
+      <div>
+        <div class="day-title">Cửa Lò → Huế</div>
+        <div class="day-subtitle">Xuất phát 6:00 — ngày dài nhất</div>
+      </div>
+      <div class="day-km">470km</div>
+    </div>
+    <div class="day-body">
+      <table>
+        <thead><tr><th>Giờ</th><th>Điểm</th><th>Hoạt động</th><th>Loại</th></tr></thead>
+        <tbody>
+          <tr><td>6:00</td><td>Đại lý VinFast Chevrolet Vinh</td><td>Sạc đầu ngày · 250kW×1, 80kW×2, 60kW×4</td><td><span class="tag-charge">Sạc</span></td></tr>
+          <tr><td>7:50</td><td>Vincom Plaza Hà Tĩnh</td><td>Sạc đầy 100% · 250kW×5</td><td><span class="tag-charge">Sạc</span></td></tr>
+          <tr><td>11:00</td><td><strong>Nhật Lệ, Đồng Hới</strong></td><td>Ăn trưa, bé chạy biển ~1.5h</td><td><span class="tag-tourist">Du lịch</span></td></tr>
+          <tr><td>13:30</td><td>Trạm dừng nghỉ Thiên Phúc / CH XD Lệ Ninh</td><td>Sạc · 250kW×1, 60kW×18</td><td><span class="tag-charge">Sạc</span></td></tr>
+          <tr><td>16:30</td><td>Quán Cơm Trung Hiếu, Quảng Trị</td><td>Sạc đầy · 250kW×1, 60kW×18</td><td><span class="tag-charge">Sạc</span></td></tr>
+          <tr><td>17:30</td><td>G89G+PPW, Phong Điền, Huế</td><td>Sạc · (xem app VinFast)</td><td><span class="tag-charge">Sạc</span></td></tr>
+          <tr><td>18:30</td><td><strong>Huế</strong></td><td>Nhận phòng, chợ Đông Ba, bún bò Huế</td><td><span class="tag-sleep">Nghỉ đêm</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Day 3 -->
+  <div class="day-card">
+    <div class="day-header d3">
+      <div class="day-number">3</div>
+      <div>
+        <div class="day-title">Huế → Thiên Cầm</div>
+        <div class="day-subtitle">Xuất phát 9:00 — có buổi sáng ở Huế</div>
+      </div>
+      <div class="day-km">410km</div>
+    </div>
+    <div class="day-body">
+      <table>
+        <thead><tr><th>Giờ</th><th>Điểm</th><th>Hoạt động</th><th>Loại</th></tr></thead>
+        <tbody>
+          <tr><td>7:00</td><td><strong>Huế (sáng)</strong></td><td>Đại Nội, bánh khoái, cơm hến</td><td><span class="tag-tourist">Du lịch</span></td></tr>
+          <tr><td>8:30</td><td>G89G+PPW, Phong Điền, Huế</td><td>Sạc đầy 100% trước khi đi</td><td><span class="tag-charge">Sạc</span></td></tr>
+          <tr><td>10:15</td><td><strong>Thành Cổ Quảng Trị</strong></td><td>Cầu Hiền Lương, Thành Cổ ~1.5h</td><td><span class="tag-tourist">Du lịch</span></td></tr>
+          <tr><td>11:45</td><td>Quán Cơm Trung Hiếu / Nhà dân Trần Thị Dung</td><td>Sạc · 250kW×1, 60kW×18</td><td><span class="tag-charge">Sạc</span></td></tr>
+          <tr><td>15:00</td><td>CH Xăng dầu Lâm Thủy, Quảng Bình</td><td>Sạc · 250kW×1, 120kW×8, 60kW×10</td><td><span class="tag-charge">Sạc</span></td></tr>
+          <tr><td>16:00</td><td>Vincom+ Kỳ Anh, Hà Tĩnh</td><td>Sạc · 250kW×1, 60kW×6</td><td><span class="tag-charge">Sạc</span></td></tr>
+          <tr><td>19:00</td><td><strong>Thiên Cầm, Hà Tĩnh</strong></td><td>Biển yên tĩnh, hải sản, nghỉ đêm</td><td><span class="tag-sleep">Nghỉ đêm</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Day 4 -->
+  <div class="day-card">
+    <div class="day-header d4">
+      <div class="day-number">4</div>
+      <div>
+        <div class="day-title">Thiên Cầm → Hà Nội</div>
+        <div class="day-subtitle">Xuất phát 7:00 — ngày nhẹ nhàng nhất</div>
+      </div>
+      <div class="day-km">385km</div>
+    </div>
+    <div class="day-body">
+      <table>
+        <thead><tr><th>Giờ</th><th>Điểm</th><th>Hoạt động</th><th>Loại</th></tr></thead>
+        <tbody>
+          <tr><td>7:00</td><td>Bãi đỗ xe Đoàn Xuân Luật, Hà Tĩnh</td><td>Sạc · 250kW×1, 60kW×8</td><td><span class="tag-charge">Sạc</span></td></tr>
+          <tr><td>7:50</td><td>Đại lý VinFast Chevrolet Vinh</td><td>Sạc · 250kW×1, 80kW×2, 60kW×4</td><td><span class="tag-charge">Sạc</span></td></tr>
+          <tr><td>10:30</td><td>Vincom+ Tĩnh Gia, Thanh Hóa</td><td>Sạc nhanh · 250kW×1, 30kW×1</td><td><span class="tag-charge">Sạc</span></td></tr>
+          <tr><td>12:00</td><td>Vincom+ Thái Hòa, Thanh Hóa</td><td>Ăn trưa + Sạc · 250kW×5, 60kW×2</td><td><span class="tag-charge">Sạc</span></td></tr>
+          <tr><td>14:30</td><td><strong>Hà Nội</strong></td><td>Về đến nhà 🏠</td><td></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 6 Tourist Stops -->
+  <h2>🏖 6 Điểm Du Lịch</h2>
+  <div class="stops-grid">
+    <div class="stop-card">
+      <div class="stop-num">1</div>
+      <div>
+        <div class="stop-name">Tràng An, Ninh Bình</div>
+        <div class="stop-meta">Ngày 1 · Thiên nhiên · ~2h<br>Đi thuyền, bé không cần leo</div>
+      </div>
+    </div>
+    <div class="stop-card">
+      <div class="stop-num">2</div>
+      <div>
+        <div class="stop-name">Sầm Sơn, Thanh Hóa</div>
+        <div class="stop-meta">Ngày 1 · Biển · ~1.5h<br>Bé chơi cát, ăn trưa hải sản</div>
+      </div>
+    </div>
+    <div class="stop-card">
+      <div class="stop-num">3</div>
+      <div>
+        <div class="stop-name">Cửa Lò, Nghệ An</div>
+        <div class="stop-meta">Ngày 1 · Biển + Nghỉ đêm<br>Bãi biển đẹp, hải sản tươi</div>
+      </div>
+    </div>
+    <div class="stop-card">
+      <div class="stop-num">4</div>
+      <div>
+        <div class="stop-name">Nhật Lệ, Đồng Hới</div>
+        <div class="stop-meta">Ngày 2 · Biển · ~1.5h<br>Ăn trưa, bé chạy nhảy</div>
+      </div>
+    </div>
+    <div class="stop-card">
+      <div class="stop-num">5</div>
+      <div>
+        <div class="stop-name">Thành Cổ Quảng Trị</div>
+        <div class="stop-meta">Ngày 3 · Lịch sử · ~1.5h<br>Cầu Hiền Lương, Sông Bến Hải</div>
+      </div>
+    </div>
+    <div class="stop-card">
+      <div class="stop-num">6</div>
+      <div>
+        <div class="stop-name">Thiên Cầm, Hà Tĩnh</div>
+        <div class="stop-meta">Ngày 3 · Biển + Nghỉ đêm<br>Biển yên tĩnh, ít đông</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Overnight -->
+  <h2>🏨 Nghỉ Đêm</h2>
+  <div class="hotel-grid">
+    <div class="hotel-card">
+      <div class="hotel-night">Đêm 1</div>
+      <div class="hotel-name">Cửa Lò, Nghệ An</div>
+      <div class="hotel-tip">Khách sạn gần biển, bãi tắm rộng cho bé</div>
+    </div>
+    <div class="hotel-card">
+      <div class="hotel-night">Đêm 2</div>
+      <div class="hotel-name">Huế</div>
+      <div class="hotel-tip">Trung tâm, gần chợ Đông Ba và Đại Nội</div>
+    </div>
+    <div class="hotel-card">
+      <div class="hotel-night">Đêm 3</div>
+      <div class="hotel-name">Thiên Cầm, Hà Tĩnh</div>
+      <div class="hotel-tip">Resort ven biển, yên tĩnh, phù hợp gia đình</div>
+    </div>
+  </div>
+
+  <!-- VF3 Notes -->
+  <h2>⚡ Lưu Ý VF3</h2>
+  <div class="notice-box">
+    <strong>⚠ Chỉ sạc được cổng ≥30kW (DC).</strong>
+    Tất cả trạm trong danh sách đều có cổng 250kW — đều dùng được với VF3.
+  </div>
+  <div class="vf3-grid">
+    <div class="vf3-card">
+      <div class="vf3-label">Dung lượng pin</div>
+      <div class="vf3-value">17.3 kWh</div>
+    </div>
+    <div class="vf3-card">
+      <div class="vf3-label">Thực tế lái được</div>
+      <div class="vf3-value">~150–170km/sạc</div>
+    </div>
+    <div class="vf3-card">
+      <div class="vf3-label">Sạc 30kW (đầy)</div>
+      <div class="vf3-value">~35 phút</div>
+    </div>
+    <div class="vf3-card">
+      <div class="vf3-label">Sạc 50kW (đầy)</div>
+      <div class="vf3-value">~20 phút</div>
+    </div>
+    <div class="vf3-card">
+      <div class="vf3-label">Tra trạm thời gian thực</div>
+      <div class="vf3-value">App VinFast / GSM</div>
+    </div>
+    <div class="vf3-card">
+      <div class="vf3-label">Sạc đầy 100% bắt buộc</div>
+      <div class="vf3-value" style="font-size:.88rem; line-height:1.5">Thanh Hóa → Cửa Lò<br>Hà Tĩnh → Đồng Hới<br>Đông Hà → Huế</div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  Hành trình dự kiến · VinFast VF3 · 2 người lớn + bé 3 tuổi · Hà Nội – Huế 4 ngày
+</footer>
+
+</body>
+</html>
